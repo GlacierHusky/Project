@@ -19,9 +19,87 @@
       <lightsource />
       <attr name="pov_look">You are an old man, beat with age and wear.</attr>
     </object>
+    <exit alias="east" to="kitchen1">
+      <inherit name="eastdirection" />
+    </exit>
+    <exit alias="west" to="lounge1">
+      <inherit name="westdirection" />
+    </exit>
   </object>
   <object name="kitchen1">
     <inherit name="editor_room" />
     <description>You see a dark kitchen with pots and pans scatered about.</description>
+    <object name="knife1">
+      <inherit name="editor_object" />
+      <alias>Sharp Knife</alias>
+      <use type="boolean">false</use>
+      <take />
+      <takemsg>You gingerly take the knife.</takemsg>
+      <selfuseon type="scriptdictionary">
+        <item key="heart1">
+          msg ("You violently stab the heart over and over until it stops beating. ")
+          finish
+        </item>
+        <item key="player1">
+          msg ("You slowly stab yourself and slump over in a pool of blood.")
+          if (Got(heart1)) {
+            MoveObject (heart1, lounge2)
+          }
+          if (Got(knife1)) {
+            MoveObject (knife1, kitchen2)
+          }
+          MoveObject (player1, lobby2)
+        </item>
+      </selfuseon>
+    </object>
+    <exit alias="west" to="lobby1">
+      <inherit name="westdirection" />
+    </exit>
+  </object>
+  <object name="lounge1">
+    <inherit name="editor_room" />
+    <alias>Lounge</alias>
+    <description>You see a smoky lounge with chairs scattered about, and empty glasses strewn across the floor.</description>
+    <exit alias="east" to="lobby1">
+      <inherit name="eastdirection" />
+    </exit>
+    <object name="heart1">
+      <inherit name="editor_object" />
+      <alias>Beating Heart</alias>
+      <visible />
+      <take />
+      <look>You see a shapeless heart beeting franticly on the floor.</look>
+      <usedefaultprefix />
+      <alt type="stringlist">
+        <value>heart</value>
+      </alt>
+    </object>
+  </object>
+  <object name="lobby2">
+    <inherit name="editor_room" />
+    <alias>Lobby</alias>
+    <description>You are in a dusty old room with old furniture.</description>
+    <exit alias="east" to="kitchen2">
+      <inherit name="eastdirection" />
+    </exit>
+    <exit alias="west" to="lounge2">
+      <inherit name="westdirection" />
+    </exit>
+  </object>
+  <object name="kitchen2">
+    <inherit name="editor_room" />
+    <description>You are in a smelly kitchen with garbage everywhere.</description>
+    <alias>Kitchen</alias>
+    <exit alias="west" to="lobby2">
+      <inherit name="westdirection" />
+    </exit>
+  </object>
+  <object name="lounge2">
+    <inherit name="editor_room" />
+    <alias>Lounge</alias>
+    <description>You see a run down room with glass and booze all over the place.</description>
+    <exit alias="east" to="lobby2">
+      <inherit name="eastdirection" />
+    </exit>
   </object>
 </asl>
