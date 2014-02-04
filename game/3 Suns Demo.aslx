@@ -41,6 +41,8 @@
       </pov_alt>
       <drop type="boolean">false</drop>
       <scenery />
+      <statusattributes type="int">0</statusattributes>
+      <turns type="int">0</turns>
     </object>
   </object>
   <object name="Kitchen">
@@ -84,16 +86,15 @@
   <object name="Loby2">
     <inherit name="editor_room" />
     <alias>Loby</alias>
-	<descprefix>You are in the loby</descprefix>
+    <descprefix>You are in the loby</descprefix>
     <objectslistprefix>You can see four doors</objectslistprefix>
-    <alias>Loby</alias>
     <exit alias="west" to="Lounge">
       <inherit name="westdirection" />
     </exit>
     <exit alias="north" to="Loby1">
       <inherit name="northdirection" />
       <lookonly />
-      <look>You see a great painting of a heroic man seated atop a horse.</look>
+      <look>go fuck yourself</look>
     </exit>
     <exit alias="east" to="Kitchen">
       <inherit name="eastdirection" />
