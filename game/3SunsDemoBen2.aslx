@@ -83,6 +83,7 @@
         </item>
         <item key="player1">
           msg ("You slowly stab yourself and slump over in a pool of blood.")
+          IncreaseObjectCounter (player1, "deathCount")
           if (Got(heart1)) {
             MoveObject (heart1, lounge1)
           }
@@ -198,11 +199,20 @@
       <alias>Beating Heart</alias>
       <visible type="boolean">false</visible>
       <take />
-      <look>You see a shapeless heart beeting frantically on the floor.</look>
+      <look type="script">
+        if (GetInt(player1, "deathCount") = 0) {
+          msg ("You see a shapeless heart beeting frantically on the floor.")
+        }
+        else if (GetInt(player1, "deathCount") = 1) {
+          msg ("You see a gross looking heart twitching, and squishing on the floor.")
+        }
+      </look>
       <usedefaultprefix />
       <alt type="stringlist">
         <value>heart</value>
+        <value>gross heart</value>
       </alt>
+      <scenery />
     </object>
     <object name="ebonystatue1">
       <inherit name="editor_object" />
