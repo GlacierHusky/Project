@@ -1,0 +1,302 @@
+<!--Saved by Quest 5.4.4873.16527-->
+<asl version="540">
+  <include ref="English.aslx" />
+  <include ref="Core.aslx" />
+  <game name="3SunsDemo">
+    <gameid>45a3bb8d-9a77-4b45-9b7d-9076b8f96577</gameid>
+    <version>1.0</version>
+    <firstpublished>2014</firstpublished>
+    <showscore />
+    <pov type="object">player1</pov>
+  </game>
+  <object name="lobby1">
+    <inherit name="editor_room" />
+    <alias>Hall</alias>
+    <description type="script"><![CDATA[
+      if (GetInt(player1, "deathCount") = 0) {
+        msg ("You've entered the mansion to see the moonlit entrance hall as you close the door the behind you. An eerie silence surrounds you, barely disturbed by the echoing shuffles and steps of your feet against the carpet and marble floor.<br/><br/><i>Hrm. The entrance is unusually well-kept for an abandoned manor. I should probably search the main floor first before I go to the lower and upper floors.</i><br/><br/>You give the hall a glance all around as you pace the wide, hollow space briefly. Two identical heavy, wooden doors are on your right and left. As you return to the door you came from, you bump against a small table placed against the wall, making a small metallic jingle as something slides across the top of it. The dim silhouette of the object in question resembles a ring of keys.")
+      }
+      else if (GetInt(player1, "deathCount") = 1) {
+        msg ("You've entered the mansion to see the dimly-lit entrance hall as the door creaks shut behind you. You take out your journal and flip through some pages.<br/><br/><i>Well, it certainly seems well-kept like Dad found it, though maybe some more dust than when he saw it. He wrote something about the two doors here and this ring of keys he put in between these pages... I should check those out.</i><br/><br/>Just as written in the journal, two identical heavy, wooden doors are on your right and left.")
+      }
+    ]]></description>
+    <picture type="string"></picture>
+    <exit name="lockedkitchendoor" alias="right" to="kitchen1">
+      <inherit name="eastdirection" />
+      <locked />
+      <prefix type="string"></prefix>
+      <suffix type="string"></suffix>
+    </exit>
+    <exit name="lockedloungedoor" alias="left" to="lounge1">
+      <inherit name="westdirection" />
+      <locked />
+      <prefix type="string"></prefix>
+      <suffix type="string"></suffix>
+    </exit>
+    <object name="keys">
+      <inherit name="editor_object" />
+      <alias>Ring of Keys</alias>
+      <take />
+      <use type="boolean">false</use>
+      <visible />
+      <look>Looks like an ordinary but antique - and large - ring of keys. Seems strange to have such a large ring for only two keys.</look>
+      <ontake type="script"><![CDATA[
+        msg ("<i>I should be able to use these to unlock those two doors.</i>")
+        UnlockExit (lockedkitchendoor)
+        UnlockExit (lockedloungedoor)
+      ]]></ontake>
+      <selfuseon type="scriptdictionary" />
+    </object>
+    <object name="player1">
+      <inherit name="editor_object" />
+      <inherit name="editor_player" />
+      <lightsource type="boolean">false</lightsource>
+      <attr name="pov_look">You are an old man, beat with age and wear.</attr>
+      <statusattributes type="stringdictionary" />
+      <deathCount type="int">0</deathCount>
+    </object>
+  </object>
+  <object name="kitchen1">
+    <inherit name="editor_room" />
+    <description>You see a dark kitchen with pots and pans scatered about. A large, new fangled stove sits in the centre of one wall. A counter runs along the walls. Set into the counter, you see a large, metal disc with a keypad on top of it. There are two large cupboards beside the stove.</description>
+    <object name="knife1">
+      <inherit name="editor_object" />
+      <alias>Sharp Knife</alias>
+      <use type="boolean">false</use>
+      <take />
+      <takemsg>You gingerly take the knife.</takemsg>
+      <selfuseon type="scriptdictionary">
+        <item key="heart1">
+          msg ("You violently stab the heart over and over until it stops beating. ")
+          finish
+        </item>
+        <item key="player1">
+          msg ("You slowly stab yourself and slump over in a pool of blood.")
+          if (Got(heart1)) {
+            MoveObject (heart1, lounge2)
+          }
+          if (Got(knife1)) {
+            MoveObject (knife1, kitchen2)
+          }
+          MoveObject (player1, lobby2)
+        </item>
+      </selfuseon>
+    </object>
+    <exit alias="west" to="lobby1">
+      <inherit name="westdirection" />
+    </exit>
+    <object name="oven1">
+      <inherit name="editor_object" />
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <look>The stove has four burners and an oven. It seems quite new. The clock appears to be broken.</look>
+      <alias>oven</alias>
+    </object>
+    <object name="ovenclock1">
+      <inherit name="editor_object" />
+      <look>The oven clock is flashing "12:00". There are several unlabled buttons on the side that might help you fix it.</look>
+      <pressbuttonon>You try to use the buttons to fix the clock, but some of the buttons appear to be broken. Maybe something is stuck behind the panel.</pressbuttonon>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <alias>clock on the oven</alias>
+      <useon type="scriptdictionary">
+        <item key="knife1">
+          msg ("You pry off the front of the clock with the knife. Behind the clock is a charred bit of paper. You can make out the numbers \"347\". It looks like the start to a code.")
+          MakeObjectVisible (ovenclock1a)
+          MakeObjectInvisible (ovenclock1)
+        </item>
+      </useon>
+    </object>
+    <object name="metal disc">
+      <inherit name="editor_object" />
+      <inherit name="container_closed" />
+      <inherit name="container_lockable" />
+      <open />
+      <unlockmessage type="string"></unlockmessage>
+      <close />
+      <autounlock type="boolean">false</autounlock>
+      <openmsg>The disc begins to rise out of the counter. Mist billows out of the hole in the counter and you see that the disc is the top of a pop-out fridge.</openmsg>
+      <hidechildren />
+      <usekeypad>You have no idea what the code it! Maybe if you wrote it down, it might help you.</usekeypad>
+      <nokeymessage>There's no way to open it that you can see.</nokeymessage>
+      <closemsg>The fridge slowly descends back into the counter.</closemsg>
+      <listchildren />
+      <listchildrenprefix>In the fridge, you see</listchildrenprefix>
+      <key type="object">codepaper1</key>
+      <look type="script">
+        if (not metal disc.isopen) {
+          msg ("Upon closer inspection, the metal disc appears to actually be part of the counter. There is no room for you to fit your fingers around the side to try and pry it out. There is a keypad on top of it.")
+        }
+        else {
+          msg ("The fridge is partially obscured by billowing fog. There are several shelves, but most seem to be empty.")
+        }
+      </look>
+      <useon type="scriptdictionary">
+        <item key="codepaper1">
+          msg ("After some guessing, the code works!")
+          HelperOpenObject (metal disc)
+          msg ("The disc begins to rise out of the counter. Mist billows out of the hole in the counter and you see that the disc is the top of a pop-out fridge.")
+        </item>
+      </useon>
+      <object name="frozenhand1">
+        <inherit name="editor_object" />
+        <look>The hand is dead and rotten. It is cold to the touch, like the caress of the grave. The skin has gone black and smooth from a long time in the cold, and looks somewhat like ebony.</look>
+        <alias>a frozen hand</alias>
+        <take />
+      </object>
+    </object>
+    <object name="ovenclock1a">
+      <inherit name="editor_object" />
+      <look>The front has been pried off of the clock. Some wires have been pulled out and are sparking. You can see a paper with the numbers "347" on it.</look>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <alias>clock on the oven</alias>
+      <visible type="boolean">false</visible>
+      <takepaper type="script">
+        msg ("You take the paper out of the sparking remains of the oven's clock. Good thing you weren't clumsier, or you might have been electrocuted!")
+        MakeObjectVisible (codepaper1)
+        AddToInventory (codepaper1)
+      </takepaper>
+    </object>
+    <object name="codepaper1">
+      <inherit name="editor_object" />
+      <visible type="boolean">false</visible>
+      <alias>burnt paper</alias>
+      <look>A slightly singed paper with the numbers 347 on it. The last number is burnt off.</look>
+    </object>
+  </object>
+  <object name="lounge1">
+    <inherit name="editor_room" />
+    <alias>Lounge</alias>
+    <description>You see a smoky lounge with chairs scattered about, and empty glasses strewn across the floor.</description>
+    <exit alias="east" to="lobby1">
+      <inherit name="eastdirection" />
+    </exit>
+    <object name="heart1">
+      <inherit name="editor_object" />
+      <alias>Beating Heart</alias>
+      <visible type="boolean">false</visible>
+      <take />
+      <look>You see a shapeless heart beeting frantically on the floor.</look>
+      <usedefaultprefix />
+      <alt type="stringlist">
+        <value>heart</value>
+      </alt>
+    </object>
+    <object name="ebonystatue1">
+      <inherit name="editor_object" />
+      <look>The ebony statue stands in the middle of the room. It is of a man covered in a cloak, apparently in the act of offering something. The hand he is offering with appears to be broken off.</look>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+      </displayverbs>
+      <alias>statue</alias>
+      <useon type="scriptdictionary">
+        <item key="frozenhand1">
+          msg ("You press the wrist of the hand up to where the statue's hand is missing. The lights blink out and the room goes black. You lose consciousness. When you come to, the statue's hand has been restored, and seems to be made of the same ebony material as the rest of the statue. The hand is holding a beating heart.")
+          MakeObjectVisible (heart1)
+        </item>
+      </useon>
+    </object>
+  </object>
+  <object name="lobby2">
+    <inherit name="editor_room" />
+    <alias>Hall</alias>
+    <description><![CDATA[You've entered the mansion to see the dimly-lit entrance hall as the door creaks shut behind you. You take out your journal and flip through some pages.<br/><br/><i>Well, it certainly seems well-kept like Dad found it, though maybe some more dust than when he saw it. He wrote something about the two doors here and this ring of keys he put in between these pages... I should check those out.</i><br/><br/>Just as written in the journal, two identical heavy, wooden doors are on your right and left.]]></description>
+    <picture type="string"></picture>
+    <exit name="lockedkitchendoor2" alias="east" to="kitchen2">
+      <inherit name="eastdirection" />
+      <locked />
+      <lockmessage><![CDATA[That way is locked. <i>Strange. None of the keys fit. Maybe I should look around.</i>]]></lockmessage>
+      <runscript type="boolean">false</runscript>
+      <script type="script">
+      </script>
+    </exit>
+    <exit name="lockedloungedoor2" alias="west" to="lounge2">
+      <inherit name="westdirection" />
+      <locked />
+      <lockmessage><![CDATA[That way is locked. <i>Strange. None of the keys fit. Maybe I should look around.</i>]]></lockmessage>
+    </exit>
+    <object name="chair">
+      <inherit name="editor_object" />
+      <inherit name="container_open" />
+      <alias>Wooden Chair</alias>
+      <look>An ordinary wood chair. There seems to be something sticking out of where one of the nails should be on one of its legs.</look>
+      <displayverbs type="stringlist">
+        <value>Look at</value>
+        <value>Take</value>
+      </displayverbs>
+      <open type="boolean">false</open>
+      <close type="boolean">false</close>
+      <transparent />
+      <hidechildren />
+      <object name="skeletonkey">
+        <inherit name="editor_object" />
+        <visible />
+        <alias>Strange Object</alias>
+        <look>An ominous looking key.</look>
+        <take />
+        <takemsg><![CDATA[You pull out the key and examine it. The unique key has an engraved skull at the head, with jagged bone-like teeth on the tail-end. <i>Huh. Well, certainly a literal manifestation of a 'skeleton key.' Maybe this will open those doors.</i>]]></takemsg>
+        <listalias>Strange Key</listalias>
+        <alt type="stringlist" />
+        <ontake type="script">
+          UnlockExit (lockedkitchendoor2)
+          UnlockExit (lockedloungedoor2)
+        </ontake>
+      </object>
+    </object>
+    <object name="table">
+      <inherit name="editor_object" />
+      <alias>Table</alias>
+      <look><![CDATA[A small table adjacent to the wall with a thin layer of dust covering its surface. <i>Must be the table Dad found the keys on. Nothing else to see here though.</i>]]></look>
+    </object>
+  </object>
+  <object name="kitchen2">
+    <inherit name="editor_room" />
+    <description>You are in a smelly kitchen with garbage everywhere.</description>
+    <alias>Kitchen</alias>
+    <exit alias="west" to="lobby2">
+      <inherit name="westdirection" />
+    </exit>
+  </object>
+  <object name="lounge2">
+    <inherit name="editor_room" />
+    <alias>Lounge</alias>
+    <description>You see a run down room with glass and booze all over the place.</description>
+    <exit alias="east" to="lobby2">
+      <inherit name="eastdirection" />
+    </exit>
+  </object>
+  <verb>
+    <property>lookatstrangeobject</property>
+    <pattern>look at strange object</pattern>
+    <defaultexpression>"You can't look at strange object " + object.article + "."</defaultexpression>
+  </verb>
+  <verb>
+    <property>press</property>
+    <pattern>press</pattern>
+    <defaultexpression>"You can't press " + object.article + "."</defaultexpression>
+  </verb>
+  <verb>
+    <property>pressbutton</property>
+    <pattern>press button</pattern>
+    <defaultexpression>"You can't press button " + object.article + "."</defaultexpression>
+  </verb>
+  <verb>
+    <property>pressbuttonon</property>
+    <pattern>press button on</pattern>
+    <defaultexpression>"You can't press button on " + object.article + "."</defaultexpression>
+  </verb>
+  <verb>
+    <property>usekeypad</property>
+    <pattern>use keypad</pattern>
+    <defaultexpression>"You can't use keypad " + object.article + "."</defaultexpression>
+  </verb>
+  <verb>
+    <property>takepaper</property>
+    <pattern>take paper</pattern>
+    <defaultexpression>"You can't take paper " + object.article + "."</defaultexpression>
+  </verb>
+</asl>
