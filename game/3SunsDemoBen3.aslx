@@ -58,6 +58,8 @@
       <inherit name="editor_object" />
       <inherit name="editor_player" />
       <lightsource type="boolean">false</lightsource>
+      <statusattributes type="stringdictionary" />
+      <deathCount type="int">0</deathCount>
       <attr name="pov_look" type="script">
         if (GetInt(player1, "deathCount") = 0) {
           msg ("You are an old man, beat with age and wear.")
@@ -66,12 +68,11 @@
           msg ("You are a young man in your prime.")
         }
       </attr>
-      <statusattributes type="stringdictionary" />
-      <deathCount type="int">0</deathCount>
     </object>
   </object>
   <object name="kitchen1">
     <inherit name="editor_room" />
+    <alias>Kitchen</alias>
     <description type="script">
       if (GetInt(player1, "deathCount") = 0) {
         msg ("You see a dark kitchen with pots and pans scatered about. A large, new fangled stove sits in the centre of one wall. A counter runs along the walls. Set into the counter, you see a large, metal disc with a keypad on top of it. There are two large cupboards beside the stove.")
@@ -80,7 +81,6 @@
         msg ("You see a dark kitchen with pots and pans scatered about. A large, old looking stove sits in the centre of one wall. A counter runs along the walls. Set into the counter, you see a large, strange metal disc with an outdated keypad on top of it. There are two large cupboards beside the stove.")
       }
     </description>
-    <alias>Kitchen</alias>
     <object name="knife1">
       <inherit name="editor_object" />
       <alias>Sharp Knife</alias>
@@ -89,6 +89,8 @@
       <use type="script"><![CDATA[
         msg ("<i>Use this on what?</i>")
       ]]></use>
+      <look type="script">
+      </look>
       <selfuseon type="scriptdictionary">
         <item key="heart1">
           msg ("You violently stab the heart over and over until it stops beating. ")
@@ -98,10 +100,19 @@
           msg ("You slowly stab yourself and slump over in a pool of blood.")
           IncreaseObjectCounter (player1, "deathCount")
           if (Got(heart1)) {
-            MoveObject (heart1, lounge1)
+            MoveObjectHere (heart1)
           }
           if (Got(knife1)) {
-            MoveObject (knife1, lounge1)
+            MoveObjectHere (knife1)
+          }
+          else if (Got(lobbyKeys)) {
+            MoveObjectHere (lobbyKeys)
+          }
+          else if (not Got(frozenhand1)) {
+            MoveObjectHere (frozenhand1)
+          }
+          else if (Got(codepaper1)) {
+            MoveObjectHere (codepaper1)
           }
           MoveObject (player1, lounge1)
         </item>
@@ -126,6 +137,10 @@
         <value>Look at</value>
       </displayverbs>
       <alias>clock on the oven</alias>
+      <alt type="stringlist">
+        <value>clock</value>
+        <value>oven clock</value>
+      </alt>
       <useon type="scriptdictionary">
         <item key="knife1"><![CDATA[
           msg ("<i>You pry off the front of the clock with the knife. Behind the clock is a charred bit of paper.</i>")
@@ -133,10 +148,6 @@
           MoveObjectHere (codepaper1)
         ]]></item>
       </useon>
-      <alt type="stringlist">
-        <value>clock</value>
-        <value>oven clock</value>
-      </alt>
     </object>
     <object name="metal disc">
       <inherit name="editor_object" />
@@ -153,6 +164,7 @@
       <closemsg>The fridge slowly descends back into the counter.</closemsg>
       <listchildren />
       <listchildrenprefix>In the fridge, you see</listchildrenprefix>
+      <drop type="boolean">false</drop>
       <key type="object">codepaper1</key>
       <look type="script">
         if (not metal disc.isopen) {
@@ -169,34 +181,26 @@
           msg ("The disc begins to rise out of the counter. Mist billows out of the hole in the counter and you see that the disc is the top of a pop-out fridge.")
         </item>
       </useon>
+      <alias>metal disc</alias>
+      <alt type="stringlist">
+        <value>disc</value>
+        <value>fridge</value>
+      </alt>
       <object name="frozenhand1">
         <inherit name="editor_object" />
         <look>The hand is dead and rotten. It is cold to the touch, like the caress of the grave. The skin has gone black and smooth from a long time in the cold, and looks somewhat like ebony.</look>
         <alias>a frozen hand</alias>
         <take />
+        <alt type="stringlist">
+          <value>hand</value>
+          <value>frozen hand</value>
+        </alt>
       </object>
-    </object>
-    <object name="ovenclock1a">
-      <inherit name="editor_object" />
-      <look>The front has been pried off of the clock. Some wires have been pulled out and are sparking. You can see a paper with the numbers "347" on it.</look>
-      <displayverbs type="stringlist">
-        <value>Look at</value>
-      </displayverbs>
-      <alias>clock on the oven</alias>
-      <visible type="boolean">false</visible>
-      <takepaper type="script">
-        msg ("You take the paper out of the sparking remains of the oven's clock. Good thing you weren't clumsier, or you might have been electrocuted!")
-        MakeObjectVisible (codepaper1)
-        AddToInventory (codepaper1)
-      </takepaper>
     </object>
     <object name="codepaper1">
       <inherit name="editor_object" />
       <visible type="boolean">false</visible>
       <alias>burnt paper</alias>
-      <look type="script">
-        msg ("A slightly singed paper with the numbers 347 on it. The last number is burnt off.")
-      </look>
       <alt type="stringlist">
         <value>paper</value>
         <value>piece of paper</value>
@@ -205,6 +209,9 @@
       <take />
       <useindividualverblist type="boolean">false</useindividualverblist>
       <usestandardverblist type="boolean">false</usestandardverblist>
+      <look type="script">
+        msg ("A slightly singed paper with the numbers 347 on it. The last number is burnt off.")
+      </look>
     </object>
   </object>
   <object name="lounge1">
