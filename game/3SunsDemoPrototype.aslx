@@ -51,7 +51,7 @@
         }
       ]]></use>
       <ontake type="script"><![CDATA[
-        msg ("<i>I should be able to use these to unlock those two doors.</i>")
+        msg ("<i>I should be able to use these to unlock those three doors.</i>")
       ]]></ontake>
       <selfuseon type="scriptdictionary" />
     </object>
