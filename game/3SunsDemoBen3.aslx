@@ -15,10 +15,10 @@
     <picture type="string"></picture>
     <description type="script"><![CDATA[
       if (GetInt(player1, "deathCount") = 0) {
-        msg ("You've entered the mansion to see the moonlit entrance hall as you close the door the behind you. An eerie silence surrounds you, barely disturbed by the echoing shuffles and steps of your feet against the carpet and marble floor.<br/><br/><i>Hrm. The entrance is unusually well-kept for an abandoned manor. I should probably search the main floor first before I go to the lower and upper floors.</i><br/><br/>You give the hall a glance all around as you pace the wide, hollow space briefly. Two identical heavy, wooden doors are on your right and left. As you return to the door you came from, you bump against a small table placed against the wall, making a small metallic jingle as something slides across the top of it. The dim silhouette of the object in question resembles a ring of keys.")
+        msg ("You've entered the mansion to see the moonlit entrance hall as you close the door the behind you. An eerie silence surrounds you, barely disturbed by the echoing shuffles and steps of your feet against the carpet and marble floor.<br/><br/><i>Hrm. The entrance is unusually well-kept for an abandoned manor. I should probably search the main floor first before I go to the lower and upper floors.</i><br/><br/>You give the hall a glance all around as you pace the wide, hollow space briefly. Three identical heavy, wooden doors are lead to your north, east and west. As you return to the door you came from, you bump against a small table placed against the wall, making a small metallic jingle as something slides across the top of it. The dim silhouette of the object in question resembles a ring of keys.")
       }
       else if (GetInt(player1, "deathCount") = 1) {
-        msg ("You've entered the mansion to see the dimly-lit entrance hall as the door creaks shut behind you. You take out your journal and flip through some pages.<br/><br/><i>Well, it certainly seems well-kept like Dad found it, though maybe some more dust than when he saw it. He wrote something about the two doors here and this ring of keys he put in between these pages... I should check those out.</i><br/><br/>Just as written in the journal, two identical heavy, wooden doors are on your right and left.")
+        msg ("You've entered the mansion to see the dimly-lit entrance hall as the door creaks shut behind you. You take out your journal and flip through some pages.<br/><br/><i>Well, it certainly seems well-kept like Dad found it, though maybe some more dust than when he saw it.</i><br/><br/>Three identical ancient looking doors are north, east, and west of you.")
       }
     ]]></description>
     <exit name="lockedkitchendoor" alias="east" to="kitchen1">
@@ -104,6 +104,9 @@
         <item key="player1"><![CDATA[
           msg ("<i>You slowly stab yourself and slump over in a pool of blood.</i>")
           msg ("Dead")
+          if (GetInt(player1, "deathCount") > 0) {
+            finish
+          }
           IncreaseObjectCounter (player1, "deathCount")
           if (Got(heart1)) {
             MoveObjectHere (heart1)
@@ -313,9 +316,10 @@
       }
     ]]></beforeenter>
     <usedefaultprefix />
-    <exit name="hiddenLobbyExit" alias="south" to="lobby1">
+    <exit name="rerturnLobbyExit" alias="south" to="lobby1">
       <inherit name="southdirection" />
       <visible />
+      <scenery />
     </exit>
     <exit name="endHallwayExit" alias="north" to="endHallway">
       <inherit name="northdirection" />
@@ -334,6 +338,7 @@
       ]]></script>
       <scenery type="boolean">false</scenery>
       <locked type="boolean">false</locked>
+      <visible type="boolean">false</visible>
     </exit>
   </object>
   <object name="endHallway">
