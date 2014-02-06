@@ -165,6 +165,11 @@
       <listchildren />
       <listchildrenprefix>In the fridge, you see</listchildrenprefix>
       <drop type="boolean">false</drop>
+      <alias>metal disc</alias>
+      <alt type="stringlist">
+        <value>disc</value>
+        <value>fridge</value>
+      </alt>
       <key type="object">codepaper1</key>
       <look type="script">
         if (not metal disc.isopen) {
@@ -181,11 +186,6 @@
           msg ("The disc begins to rise out of the counter. Mist billows out of the hole in the counter and you see that the disc is the top of a pop-out fridge.")
         </item>
       </useon>
-      <alias>metal disc</alias>
-      <alt type="stringlist">
-        <value>disc</value>
-        <value>fridge</value>
-      </alt>
       <object name="frozenhand1">
         <inherit name="editor_object" />
         <look>The hand is dead and rotten. It is cold to the touch, like the caress of the grave. The skin has gone black and smooth from a long time in the cold, and looks somewhat like ebony.</look>
@@ -287,10 +287,5 @@
     <property>usekeypad</property>
     <pattern>use keypad</pattern>
     <defaultexpression>"You can't use keypad " + object.article + "."</defaultexpression>
-  </verb>
-  <verb>
-    <property>takepaper</property>
-    <pattern>take paper</pattern>
-    <defaultexpression>"You can't take paper " + object.article + "."</defaultexpression>
   </verb>
 </asl>
