@@ -44,6 +44,7 @@
           msg ("<i> I unlock booth the doors in this room</i>")
           UnlockExit (lockedkitchendoor)
           UnlockExit (lockedloungedoor)
+          UnlockExit (lockedHallwayExit)
         }
         else {
           msg ("<i>I can't use those here</i>")
@@ -69,6 +70,10 @@
         }
       </attr>
     </object>
+    <exit name="lockedHallwayExit" alias="north" to="hallway1">
+      <inherit name="northdirection" />
+      <locked />
+    </exit>
   </object>
   <object name="kitchen1">
     <inherit name="editor_room" />
@@ -96,8 +101,9 @@
           msg ("You violently stab the heart over and over until it stops beating. ")
           finish
         </item>
-        <item key="player1">
-          msg ("You slowly stab yourself and slump over in a pool of blood.")
+        <item key="player1"><![CDATA[
+          msg ("<i>You slowly stab yourself and slump over in a pool of blood.</i>")
+          msg ("Dead")
           IncreaseObjectCounter (player1, "deathCount")
           if (Got(heart1)) {
             MoveObjectHere (heart1)
@@ -115,7 +121,7 @@
             MoveObjectHere (codepaper1)
           }
           MoveObject (player1, lounge1)
-        </item>
+        ]]></item>
       </selfuseon>
     </object>
     <exit alias="west" to="lobby1">
@@ -288,4 +294,52 @@
     <pattern>use keypad</pattern>
     <defaultexpression>"You can't use keypad " + object.article + "."</defaultexpression>
   </verb>
+  <object name="hallway1">
+    <inherit name="editor_room" />
+    <alias>Long Hallway</alias>
+    <description type="script"><![CDATA[
+      if (GetInt(player1, "deathCount") = -1) {
+        msg ("<i>You see a long and empty hallway. It looks like there might be a door at the end.</i>")
+      }
+      else if (GetInt(player1, "deathCount") >= 1) {
+        msg ("<i>You see up-turned floor boards and what looks to be a body at the bottom of a pit. You can't procced</i>")
+      }
+    ]]></description>
+    <enter type="script">
+    </enter>
+    <beforeenter type="script"><![CDATA[
+      if (GetInt(player1, "deathCount") >= 1) {
+        MakeExitInvisible (endHallwayExit)
+      }
+    ]]></beforeenter>
+    <usedefaultprefix />
+    <exit name="hiddenLobbyExit" alias="south" to="lobby1">
+      <inherit name="southdirection" />
+      <visible />
+    </exit>
+    <exit name="endHallwayExit" alias="north" to="endHallway">
+      <inherit name="northdirection" />
+      <runscript />
+      <script type="script"><![CDATA[
+        if (GetInt(player1, "deathCount") = 0) {
+          msg ("<i>You here a creek as you walk foward. Moments latter you fall headlong into a pit. You feel faint and tired<i/>")
+          msg ("Dead")
+          IncreaseObjectCounter (player1, "deathCount")
+        }
+        else if (GetInt(player1, "deathCount") = 1) {
+          msg ("<i>You can't go that way, there aren't any floor boards anymore.</i>")
+          MoveObject (player1, hallway1)
+        }
+        MoveObject (player1, lobby1)
+      ]]></script>
+      <scenery type="boolean">false</scenery>
+      <locked type="boolean">false</locked>
+    </exit>
+  </object>
+  <object name="endHallway">
+    <inherit name="editor_room" />
+    <exit alias="south" to="hallway1">
+      <inherit name="southdirection" />
+    </exit>
+  </object>
 </asl>
