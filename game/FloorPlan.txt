@@ -1,0 +1,10 @@
+Lobby
+>CenterUpperHallway1
+>Outside
+>EastHallway
+>WestHallway
+EastHallway
+>
+>
+>Lobby
+>WestWing

@@ -1,0 +1,147 @@
+<!--Saved by Quest 5.4.4873.16527-->
+<asl version="540">
+  <include ref="English.aslx" />
+  <include ref="Core.aslx" />
+  <game name="3SunsGame">
+    <gameid>9d9e5cba-eb0e-4597-8dfa-8db5f70c746f</gameid>
+    <version>1.0</version>
+    <firstpublished>2014</firstpublished>
+  </game>
+  <object name="Lobby">
+    <inherit name="editor_room" />
+    <alias>Lobby</alias>
+    <object name="player">
+      <inherit name="editor_object" />
+      <inherit name="editor_player" />
+    </object>
+    <exit alias="north" to="UpperCenterHallway1">
+      <inherit name="northdirection" />
+    </exit>
+    <exit alias="west" to="WestHallway">
+      <inherit name="westdirection" />
+    </exit>
+    <exit alias="east" to="EastHallway">
+      <inherit name="eastdirection" />
+    </exit>
+    <exit alias="south" to="Lobby">
+      <inherit name="southdirection" />
+      <lookonly />
+      <look>You see the outside</look>
+    </exit>
+  </object>
+  <object name="UpperCenterHallway1">
+    <inherit name="editor_room" />
+    <exit alias="south" to="Lobby">
+      <inherit name="southdirection" />
+    </exit>
+    <exit alias="north" to="UpperCenterHallway2">
+      <inherit name="northdirection" />
+      <scenery />
+    </exit>
+  </object>
+  <object name="WestHallway">
+    <inherit name="editor_room" />
+    <exit alias="east" to="Lobby">
+      <inherit name="eastdirection" />
+    </exit>
+    <exit alias="west" to="WestWing">
+      <inherit name="westdirection" />
+    </exit>
+  </object>
+  <object name="EastHallway">
+    <inherit name="editor_room" />
+    <exit alias="west" to="Lobby">
+      <inherit name="westdirection" />
+    </exit>
+    <exit alias="east" to="EastWing">
+      <inherit name="eastdirection" />
+    </exit>
+  </object>
+  <object name="UpperCenterHallway2">
+    <inherit name="editor_room" />
+    <exit alias="south" to="UpperCenterHallway1">
+      <inherit name="southdirection" />
+    </exit>
+  </object>
+  <object name="WestWing">
+    <inherit name="editor_room" />
+    <exit alias="east" to="WestHallway">
+      <inherit name="eastdirection" />
+    </exit>
+    <exit alias="north" to="Lounge">
+      <inherit name="northdirection" />
+    </exit>
+  </object>
+  <object name="Lounge">
+    <inherit name="editor_room" />
+    <exit alias="south" to="WestWing">
+      <inherit name="southdirection" />
+    </exit>
+    <exit alias="north" to="Bar">
+      <inherit name="northdirection" />
+    </exit>
+  </object>
+  <object name="Bar">
+    <inherit name="editor_room" />
+    <exit alias="south" to="Lounge">
+      <inherit name="southdirection" />
+    </exit>
+    <exit alias="east" to="ServantsPassage">
+      <inherit name="eastdirection" />
+    </exit>
+  </object>
+  <object name="EastWing">
+    <inherit name="editor_room" />
+    <exit alias="west" to="EastHallway">
+      <inherit name="westdirection" />
+    </exit>
+    <exit alias="north" to="DinningRoom">
+      <inherit name="northdirection" />
+    </exit>
+  </object>
+  <object name="DinningRoom">
+    <inherit name="editor_room" />
+    <exit alias="south" to="EastWing">
+      <inherit name="southdirection" />
+    </exit>
+    <exit alias="north" to="Kitchen">
+      <inherit name="northdirection" />
+    </exit>
+  </object>
+  <object name="Kitchen">
+    <inherit name="editor_room" />
+    <exit alias="south" to="DinningRoom">
+      <inherit name="southdirection" />
+    </exit>
+    <exit alias="east" to="Freezer">
+      <inherit name="eastdirection" />
+    </exit>
+    <exit alias="north" to="Larder">
+      <inherit name="northdirection" />
+    </exit>
+    <exit alias="west" to="ServantsPassage">
+      <inherit name="westdirection" />
+    </exit>
+  </object>
+  <object name="Freezer">
+    <inherit name="editor_room" />
+    <exit alias="west" to="Kitchen">
+      <inherit name="westdirection" />
+    </exit>
+  </object>
+  <object name="Larder">
+    <inherit name="editor_room" />
+    <exit alias="south" to="Kitchen">
+      <inherit name="southdirection" />
+    </exit>
+  </object>
+  <object name="ServantsPassage">
+    <inherit name="editor_room" />
+    <exit alias="west" to="Bar">
+      <inherit name="westdirection" />
+    </exit>
+    <exit alias="east" to="Kitchen">
+      <inherit name="eastdirection" />
+    </exit>
+  </object>
+</asl>
