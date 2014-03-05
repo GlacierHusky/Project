@@ -36,7 +36,7 @@
     </exit>
     <exit alias="north" to="UpperCenterHallway2">
       <inherit name="northdirection" />
-      <scenery />
+      <scenery type="boolean">false</scenery>
     </exit>
   </object>
   <object name="WestHallway">
